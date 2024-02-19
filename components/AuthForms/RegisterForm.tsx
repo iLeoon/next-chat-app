@@ -17,19 +17,36 @@ import {
 import { Input } from '@/components/ui/input'
 import { registerFormSchema } from '@/lib/formSchemas'
 import Link from 'next/link'
+import { registerUser } from '@/helpers/api/auth/localAuth'
+import { useRouter } from 'next/navigation'
+import { isAxiosError } from 'axios'
 
 function RegisterForm() {
+  const router = useRouter()
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
-      fullName: '',
+      name: '',
       email: '',
       password: '',
     },
   })
 
-  function onSubmit(values: z.infer<typeof registerFormSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof registerFormSchema>) {
+    try {
+      const res = await registerUser(values)
+      if (res.status === 201) {
+        router.push('/')
+      }
+    } catch (e) {
+      // ensuring it's a server error
+      if (isAxiosError(e)) {
+        console.log(e.response?.data.message)
+        form.setError(`email`, { message: e.response?.data.message })
+      }
+      // otherwise
+      throw new Error('something went wrong')
+    }
   }
 
   return (
@@ -40,7 +57,7 @@ function RegisterForm() {
       >
         <FormField
           control={form.control}
-          name="fullName"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Full name</FormLabel>
@@ -97,6 +114,7 @@ function RegisterForm() {
           <Button
             type="submit"
             className="bg-indigo-600 hover:bg-indigo-700 mx-auto px-10"
+            asChild={false}
           >
             Submit
           </Button>
@@ -112,8 +130,22 @@ function RegisterForm() {
             <strong className="block">OR</strong>
             <small className="text-gray-400">Sign up with</small>
             <div className="flex items-center justify-between gap-3">
-              <FaGoogle size={25} />
-              <FaTwitter size={25} />
+              <FaGoogle
+                size={25}
+                onClick={() => {
+                  router.push(
+                    `${process.env.NEXT_PUBLIC_NEST_API_URL}/auth/google/login`,
+                  )
+                }}
+              />
+              <FaTwitter
+                size={25}
+                onClick={() => {
+                  router.push(
+                    `${process.env.NEXT_PUBLIC_NEST_API_URL}/auth/twitter/login`,
+                  )
+                }}
+              />
             </div>
           </div>
         </div>

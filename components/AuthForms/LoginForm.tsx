@@ -1,9 +1,10 @@
 'use client'
 
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { FaTwitter, FaGoogle } from 'react-icons/fa'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -16,10 +17,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { loginFormSchema } from '@/lib/formSchemas'
-import Link from 'next/link'
 import { loginAuth } from '@/helpers/api/auth/localAuth'
-import { useRouter } from 'next/navigation'
-import { isAxiosError } from 'axios'
+import ExternalSignInButtons from './ExternalSignInButtons'
 
 function LoginForm() {
   const router = useRouter()
@@ -32,21 +31,14 @@ function LoginForm() {
   })
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    try {
-      const res = await loginAuth(values)
-      if (res.status === 201) {
-        router.push('/')
-      }
-    } catch (e) {
-      // ensuring it's a server error
-      if (isAxiosError(e)) {
-        console.log(e.response?.data.message)
-        form.setError(`email`, { message: e.response?.data.message })
-        return
-      }
-      // otherwise
-      throw new Error('something went wrong')
+    const res = await loginAuth(values)
+
+    if (!res.success) {
+      form.setError(`password`, { message: res.error.message[0] })
+      return
     }
+
+    router.push('/')
   }
 
   return (
@@ -107,28 +99,8 @@ function LoginForm() {
             </Link>
           </p>
 
-          <div className="space-y-3 text-center">
-            <strong className="block">OR</strong>
-            <small className="text-gray-400">Sign up with</small>
-            <div className="flex items-center justify-between gap-3">
-              <FaGoogle
-                size={25}
-                onClick={() => {
-                  router.push(
-                    `${process.env.NEXT_PUBLIC_NEST_API_URL}/auth/google/login`,
-                  )
-                }}
-              />
-              <FaTwitter
-                size={25}
-                onClick={() => {
-                  router.push(
-                    `${process.env.NEXT_PUBLIC_NEST_API_URL}/auth/twitter/login`,
-                  )
-                }}
-              />
-            </div>
-          </div>
+          {/* TODO make google and x button */}
+          <ExternalSignInButtons />
         </div>
       </form>
     </Form>

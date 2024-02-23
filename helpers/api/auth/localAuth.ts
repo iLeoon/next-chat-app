@@ -1,22 +1,30 @@
-import axios, { type AxiosRequestConfig } from 'axios'
-import { registerCredentials, userCredentials } from '../../types'
+import { APIRespone, registerCredentials, userCredentials } from '../../types'
+import { fetcher } from '../fetcher'
 
-const config: AxiosRequestConfig = { withCredentials: true }
+export async function loginAuth(
+  loginData: userCredentials,
+): Promise<APIRespone<{ message: string }>> {
+  try {
+    const response = await fetcher.post(
+      `${process.env.NEXT_PUBLIC_NEST_API_URL}/auth/login`,
+      loginData,
+    )
 
-export async function loginAuth(loginData: userCredentials) {
-  const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_NEST_API_URL}/auth/login`,
-    loginData,
-    config,
-  )
-  return response
+    return { success: true, data: response.data }
+  } catch (e: any) {
+    return { success: false, error: e.response.data }
+  }
 }
 
 export async function registerUser(registerData: registerCredentials) {
-  const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_NEST_API_URL}/auth/register`,
-    registerData,
-    config,
-  )
-  return response
+  try {
+    const response = await fetcher.post(
+      `${process.env.NEXT_PUBLIC_NEST_API_URL}/auth/register`,
+      registerData,
+    )
+
+    return { success: true, data: response.data }
+  } catch (e: any) {
+    return { success: false, error: e.response.data }
+  }
 }

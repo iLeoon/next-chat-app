@@ -11,13 +11,10 @@ const passwordSchema = z
   .min(3, 'Password must be at least 5 characters long')
   .max(255, 'Password cannot exceed 255 characters')
 
-/* 
-    * for testing purposes 
-    .regex(
-        /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/,
-        'Please type a strong password that contains numbers',
-      )
-*/
+  .regex(
+    /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/,
+    'Please type a strong password that contains numbers',
+  )
 
 export const loginFormSchema = z.object({
   email: emailSchema,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { z } from 'zod'
 import { loginFormSchema, registerFormSchema } from '@/lib/formSchemas'
 
@@ -11,3 +12,20 @@ export type APIError = {
 export type APIRespone<T> =
   | { success: false; error: APIError }
   | { success: true; data: T }
+
+export type authUser = {
+  name: string
+  email: string
+  image?: string
+}
+
+export type Messages = {
+  content: string[]
+  author: authUser
+}
+
+export type conversationData = {
+  _id: string
+  recipent: authUser
+  messages: Messages[]
+}

@@ -1,12 +1,6 @@
 'use client'
 
 import React from 'react'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@radix-ui/react-tooltip'
 import { Button } from '../ui/button'
 import {
   Dialog,
@@ -24,21 +18,14 @@ export function AddConversation() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                variant="secondary"
-                type="button"
-                asChild={false}
-                className="w-9 h-9 rounded-full"
-              >
-                +
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Add Conversation</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Button
+          variant="secondary"
+          type="button"
+          asChild={false}
+          className="w-9 h-9 rounded-full"
+        >
+          +
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

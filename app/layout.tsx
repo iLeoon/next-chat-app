@@ -2,6 +2,8 @@ import * as React from 'react'
 import type { Metadata } from 'next'
 import './globals.css'
 import { ReactQueryProvider } from '@/helpers/providers/ReactQueryProvider'
+import NavList from '@/components/NavBar/NavList'
+import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,8 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+      <body className={cn('min-h-screen w-full flex bg-white text-black')}>
+        {/* Side Bar */}
+        <NavList />
+        {/* Home Page */}
+        <div className="w-full">
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </div>
       </body>
     </html>
   )

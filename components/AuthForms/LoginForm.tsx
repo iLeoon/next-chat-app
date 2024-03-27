@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { loginFormSchema } from '@/lib/formSchemas'
-import { loginAuth } from '@/helpers/api/auth/localAuth'
+import { loginAuth } from '@/helpers/api/auth/auth'
 import ExternalSignInButtons from './ExternalSignInButtons'
 
 function LoginForm() {

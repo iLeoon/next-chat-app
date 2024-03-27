@@ -3,7 +3,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import React from 'react'
-import { AvatarFallback } from '@radix-ui/react-avatar'
+import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { useQuery } from '@tanstack/react-query'
 import { getAuthConversation } from '@/helpers/api/conversations/getConversations'
 import { Card, CardContent } from '../ui/card'
@@ -20,9 +20,10 @@ export default function Conversations() {
         <Card className="border-none my-8 shadow-none" key={conv._id}>
           <CardContent className="flex flex-row items-center justify-start gap-4 p-0">
             <div className="">
-              <Avatar className=" bg-cyan-900 w-11 h-11">
+              <Avatar className=" bg-cyan-900 w-12 h-12">
+                <AvatarImage src={`${conv.recipent.image}`} />
                 <AvatarFallback className="flex items-center justify-center h-full w-full">
-                  {conv.recipent.image}
+                  {conv.recipent.name.slice(0, 1).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
             </div>

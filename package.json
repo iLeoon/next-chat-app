@@ -10,12 +10,14 @@
     "update": "yarn upgrade-interactive"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tanstack/react-query": "^5.28.6",
     "axios": "^1.6.7",

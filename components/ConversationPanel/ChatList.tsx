@@ -9,7 +9,7 @@ import { AddConversation } from './AddConversation'
 
 export default function ChatList() {
   return (
-    <Card className="w-80 rounded-none">
+    <Card className="w-80 rounded-none h-screen">
       <CardContent>
         <div className="flex items-center justify-start gap-6 my-5">
           <SearchField />

@@ -29,14 +29,14 @@ export default function NavList() {
               label: '972',
               icon: MessageSquare,
               variant: 'default',
-              href: '/conversations',
+              href: '/chat/conversations',
             },
             {
               title: 'Friends',
               label: '342',
               icon: User,
               variant: 'ghost',
-              href: '/components/ConversationPanel/ChatList.tsx',
+              href: '/chat/',
             },
             {
               title: 'Groups',
@@ -50,7 +50,7 @@ export default function NavList() {
               label: '8',
               icon: Mail,
               variant: 'ghost',
-              href: '/components/ConversationPanel/ChatList.tsx',
+              href: '/chat/inbox',
             },
           ]}
         />

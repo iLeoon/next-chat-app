@@ -1,5 +1,5 @@
 import React from 'react'
-import ChatList from '@/components/ConversationPanel/ChatList'
+import ChatList from '@/components/Chat-App/ConversationPanel/ChatList'
 
 function Conversation() {
   return (

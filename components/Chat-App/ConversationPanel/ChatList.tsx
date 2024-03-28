@@ -2,9 +2,9 @@
 
 import React from 'react'
 import Conversations from './Conversations'
-import { Card, CardContent } from '../ui/card'
+import { Card, CardContent } from '../../ui/card'
 import SearchField from './SearchField'
-import { Separator } from '../ui/separator'
+import { Separator } from '../../ui/separator'
 import { AddConversation } from './AddConversation'
 
 export default function ChatList() {

@@ -6,8 +6,8 @@ import React from 'react'
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { useQuery } from '@tanstack/react-query'
 import { getAuthConversation } from '@/helpers/api/conversations/getConversations'
-import { Card, CardContent } from '../ui/card'
-import { Avatar } from '../ui/avatar'
+import { Card, CardContent } from '../../ui/card'
+import { Avatar } from '../../ui/avatar'
 
 export default function Conversations() {
   const { data } = useQuery({

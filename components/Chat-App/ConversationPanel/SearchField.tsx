@@ -1,6 +1,6 @@
 import React from 'react'
 import { CiSearch } from 'react-icons/ci'
-import { Input } from '../ui/input'
+import { Input } from '../../ui/input'
 
 export default function SearchField() {
   return (

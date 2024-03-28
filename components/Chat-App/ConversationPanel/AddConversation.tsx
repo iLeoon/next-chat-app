@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Button } from '../ui/button'
+import { Button } from '../../ui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,9 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog'
-import { Input } from '../ui/input'
-import { Label } from '../ui/label'
+} from '../../ui/dialog'
+import { Input } from '../../ui/input'
+import { Label } from '../../ui/label'
 
 export function AddConversation() {
   return (

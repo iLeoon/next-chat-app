@@ -1,3 +1,7 @@
+/* eslint-disable no-underscore-dangle */
+
+'use client'
+
 import React from 'react'
 import {
   Table,
@@ -8,24 +12,24 @@ import {
 } from '@/components/ui/table'
 import { Check, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useQuery } from '@tanstack/react-query'
+import { getInvitations } from '@/helpers/api/invitations/getInvitations'
+import { createConversation } from '@/helpers/api/conversations/createConversation'
 
 export default function InboxTable() {
-  const invoices = [
-    {
-      invoice: 'INV001',
-      paymentStatus: 'Paid',
-      totalAmount: '$250.00',
-      paymentMethod: 'Credit Card',
-    },
-  ]
+  const { data } = useQuery({
+    queryKey: ['get-invitations'],
+    queryFn: async () => getInvitations(),
+  })
+
   return (
     <Table>
       <TableCaption>A list of your inbox</TableCaption>
       <TableBody>
-        {invoices.map((invoice) => (
-          <TableRow key={invoice.invoice}>
+        {data?.map((invitation) => (
+          <TableRow key={invitation._id}>
             <TableCell className="font-medium">
-              {invoice.invoice} invites you for a conversations
+              {invitation.sender.name} is inviting you for a conversations
             </TableCell>
             <TableCell className="text-right">
               <div className="flex gap-4">
@@ -34,6 +38,11 @@ export default function InboxTable() {
                   variant="ghost"
                   className="rounded-full hover:bg-slate-300"
                   asChild={false}
+                  onClick={async () => {
+                    await createConversation({
+                      recipient: invitation.sender.email,
+                    })
+                  }}
                 >
                   <Check color="green" className="w-5 h-5" />
                 </Button>

@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button'
 import { useQuery } from '@tanstack/react-query'
 import { getInvitations } from '@/helpers/api/invitations/getInvitations'
 import { createConversation } from '@/helpers/api/conversations/createConversation'
+import { deleteInvitation } from '@/helpers/api/invitations/deleteInvitation'
 
 export default function InboxTable() {
   const { data } = useQuery({
@@ -42,6 +43,7 @@ export default function InboxTable() {
                     await createConversation({
                       recipient: invitation.sender.email,
                     })
+                    await deleteInvitation(invitation._id)
                   }}
                 >
                   <Check color="green" className="w-5 h-5" />
@@ -52,6 +54,9 @@ export default function InboxTable() {
                   variant="ghost"
                   className="rounded-full hover:bg-slate-300"
                   asChild={false}
+                  onClick={async () => {
+                    await deleteInvitation(invitation._id)
+                  }}
                 >
                   <X color="red" className="w-5 h-5" />
                 </Button>

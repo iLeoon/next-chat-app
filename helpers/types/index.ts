@@ -13,7 +13,7 @@ export type APIRespone<T> =
   | { success: false; error: APIError }
   | { success: true; data: T }
 
-export type authUser = {
+export type User = {
   name: string
   email: string
   image?: string
@@ -21,11 +21,21 @@ export type authUser = {
 
 export type Messages = {
   content: string[]
-  author: authUser
+  author: User
 }
 
 export type conversationData = {
   _id: string
-  recipent: authUser
+  recipent: User
   messages: Messages[]
+}
+
+export type InvitationData = {
+  _id: string
+  sender: User
+  receiver: User
+}
+
+export type CreateConversationData = {
+  recipient: string
 }

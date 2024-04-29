@@ -39,3 +39,7 @@ export type InvitationData = {
 export type CreateConversationData = {
   recipient: string
 }
+
+export type CreateInvitationData = {
+  receiver: string
+}

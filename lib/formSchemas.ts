@@ -33,3 +33,7 @@ export const registerFormSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
 })
+
+export const sendInvitationShcema = z.object({
+  receiver: emailSchema,
+})

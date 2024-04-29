@@ -6,13 +6,11 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '../../ui/dialog'
-import { Input } from '../../ui/input'
-import { Label } from '../../ui/label'
+import { SendInvitationForm } from './SendInvitationForm'
 
 export function AddConversation() {
   return (
@@ -35,23 +33,10 @@ export function AddConversation() {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Email
-            </Label>
-            <Input
-              id="name"
-              defaultValue="Leon@yahoo.com"
-              className="col-span-3 w-64"
-              type="email"
-            />
+          <div className="">
+            <SendInvitationForm />
           </div>
         </div>
-        <DialogFooter>
-          <Button type="submit" asChild={false}>
-            Send Request
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

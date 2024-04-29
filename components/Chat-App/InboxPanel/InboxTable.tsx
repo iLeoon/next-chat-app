@@ -12,17 +12,21 @@ import {
 } from '@/components/ui/table'
 import { Check, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { getInvitations } from '@/helpers/api/invitations/getInvitations'
 import { createConversation } from '@/helpers/api/conversations/createConversation'
 import { deleteInvitation } from '@/helpers/api/invitations/deleteInvitation'
 
 export default function InboxTable() {
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['get-invitations'],
     queryFn: async () => getInvitations(),
   })
 
+  const { mutate } = useMutation({
+    mutationKey: ['create-conversation'],
+    mutationFn: createConversation,
+  })
   return (
     <Table>
       <TableCaption>A list of your inbox</TableCaption>
@@ -40,10 +44,11 @@ export default function InboxTable() {
                   className="rounded-full hover:bg-slate-300"
                   asChild={false}
                   onClick={async () => {
-                    await createConversation({
+                    mutate({
                       recipient: invitation.sender.email,
                     })
                     await deleteInvitation(invitation._id)
+                    refetch()
                   }}
                 >
                   <Check color="green" className="w-5 h-5" />
@@ -56,6 +61,7 @@ export default function InboxTable() {
                   asChild={false}
                   onClick={async () => {
                     await deleteInvitation(invitation._id)
+                    refetch()
                   }}
                 >
                   <X color="red" className="w-5 h-5" />

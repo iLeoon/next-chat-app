@@ -15,7 +15,7 @@ export default function ChatList() {
           <SearchField />
           <AddConversation />
         </div>
-        <Separator className="my-7 w-full" />
+        <Separator className="my-7" />
         <div className="">
           <Conversations />
         </div>

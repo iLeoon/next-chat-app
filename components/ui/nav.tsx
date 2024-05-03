@@ -5,7 +5,7 @@
 
 import Link from 'next/link'
 import { LucideIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/helpers/lib/utils'
 import { buttonVariants } from './button'
 import {
   Tooltip,

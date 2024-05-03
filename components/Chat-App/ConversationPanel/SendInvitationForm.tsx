@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { sendInvitationShcema } from '@/lib/formSchemas'
+import { sendInvitationShcema } from '@/helpers/lib/formSchemas'
 import { z } from 'zod'
 import { createInvitation } from '@/helpers/api/invitations/createInvitation'
 

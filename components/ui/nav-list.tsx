@@ -7,9 +7,9 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../ui/tooltip'
-import { Nav } from '../ui/nav'
-import { Avatar, AvatarFallback } from '../ui/avatar'
+} from './tooltip'
+import { Nav } from './nav'
+import { Avatar, AvatarFallback } from './avatar'
 
 export default function NavList() {
   return (

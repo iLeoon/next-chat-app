@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { registerFormSchema } from '@/lib/formSchemas'
+import { registerFormSchema } from '@/helpers/lib/formSchemas'
 import { registerUser } from '@/helpers/api/auth/auth'
 import ExternalSignInButtons from './ExternalSignInButtons'
 

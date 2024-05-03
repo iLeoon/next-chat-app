@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { z } from 'zod'
-import { loginFormSchema, registerFormSchema } from '@/lib/formSchemas'
+import { loginFormSchema, registerFormSchema } from '@/helpers/lib/formSchemas'
 
 export type userCredentials = z.infer<typeof loginFormSchema>
 export type registerCredentials = z.infer<typeof registerFormSchema>
@@ -19,7 +19,7 @@ export type User = {
   image?: string
 }
 
-export type Messages = {
+export type Message = {
   content: string[]
   author: User
 }
@@ -27,7 +27,7 @@ export type Messages = {
 export type conversationData = {
   _id: string
   recipent: User
-  messages: Messages[]
+  messages: Message[]
 }
 
 export type InvitationData = {

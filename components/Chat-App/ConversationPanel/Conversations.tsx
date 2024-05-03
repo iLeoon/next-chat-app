@@ -6,33 +6,46 @@ import React from 'react'
 import { AvatarFallback } from '@radix-ui/react-avatar'
 import { useQuery } from '@tanstack/react-query'
 import { getConversations } from '@/helpers/api/conversations/getConversations'
-import { Card, CardContent } from '../../ui/card'
-import { Avatar } from '../../ui/avatar'
+import Link from 'next/link'
+import { Card, CardContent } from '@/components/ui/card'
+import { Avatar } from '@/components/ui/avatar'
+import { useMessages } from '@/helpers/zustand'
 
 export default function Conversations() {
   const { data } = useQuery({
     queryKey: ['get-conversations'],
     queryFn: async () => getConversations(),
   })
+  const { setMessages } = useMessages((state) => ({
+    setMessages: state.setMessage,
+  }))
   return (
     <>
       {data?.map((conv) => (
-        <Card className="border-none my-8 shadow-none" key={conv._id}>
-          <CardContent className="flex flex-row items-center justify-start gap-4 p-0">
-            <div className="">
-              <Avatar className=" bg-cyan-900 w-12 h-12">
-                <AvatarFallback className="flex items-center justify-center h-full w-full">
-                  {conv.recipent.name.slice(0, 1).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-            </div>
+        <Link href={`/chat/conversations/${conv._id}`}>
+          <Card
+            className="border-none my-8 shadow-none hover:cursor-pointer hover:bg-slate-300 p-3"
+            key={conv._id}
+            onClick={() => {
+              setMessages(conv.messages)
+            }}
+          >
+            <CardContent className="flex flex-row items-center justify-start gap-4 p-0">
+              <div className="">
+                <Avatar className=" bg-cyan-900 w-12 h-12">
+                  <AvatarFallback className="flex items-center justify-center h-full w-full">
+                    {conv.recipent.name.slice(0, 1).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
 
-            <div className="pb-2 inline-block">
-              <h1 className="text-lg">{conv.recipent.name}</h1>
-              <p className="text-[13px] text-gray-900 line-clamp-1">done..</p>
-            </div>
-          </CardContent>
-        </Card>
+              <div className="pb-2 inline-block">
+                <h1 className="text-lg">{conv.recipent.name}</h1>
+                <p className="text-[13px] text-gray-900 line-clamp-1">done..</p>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
       ))}
     </>
   )

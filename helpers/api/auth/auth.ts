@@ -1,4 +1,8 @@
-import { APIRespone, registerCredentials, userCredentials } from '../../types'
+import {
+  APIRespone,
+  registerCredentials,
+  userCredentials,
+} from '@/helpers/types'
 import { fetcher } from '../fetcher'
 
 export async function loginAuth(

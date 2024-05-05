@@ -18,10 +18,12 @@ import {
 import { Input } from '@/components/ui/input'
 import { loginFormSchema } from '@/helpers/lib/formSchemas'
 import { loginAuth } from '@/helpers/api/auth/auth'
+import { useAuth } from '@/helpers/zustand'
 import ExternalSignInButtons from './ExternalSignInButtons'
 
 function LoginForm() {
   const router = useRouter()
+  const setUser = useAuth((state) => state.setUser)
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -29,7 +31,6 @@ function LoginForm() {
       password: '',
     },
   })
-
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
     const res = await loginAuth(values)
 
@@ -37,6 +38,7 @@ function LoginForm() {
       form.setError(`password`, { message: res.error.message[0] })
       return
     }
+    setUser()
 
     router.push('/')
   }

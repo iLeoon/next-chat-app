@@ -37,3 +37,8 @@ export const registerFormSchema = z.object({
 export const sendInvitationShcema = z.object({
   receiver: emailSchema,
 })
+
+export const SendMessageForm = z.object({
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  messages: z.string({ required_error: 'You must send a message' }),
+})

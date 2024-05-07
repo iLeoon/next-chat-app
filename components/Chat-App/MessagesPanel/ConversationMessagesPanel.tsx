@@ -1,8 +1,10 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useContext } from 'react'
 import { useAuth, useMessages } from '@/helpers/zustand'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { WebSocketContext } from '@/helpers/context/websocketCtx'
 
 export function ConversationMessagesPanel() {
+  const socket = useContext(WebSocketContext)
   const { messages } = useMessages((state) => ({
     messages: state.messages,
   }))
@@ -18,7 +20,12 @@ export function ConversationMessagesPanel() {
 
   useEffect(() => {
     Scroll()
-  }, [messages])
+    socket.on('connect', () => console.log('connected'))
+
+    return () => {
+      socket.off('connect')
+    }
+  }, [])
 
   const user = useAuth((state) => state.user)
 

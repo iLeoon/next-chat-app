@@ -17,7 +17,7 @@ export default function Conversations() {
     queryFn: async () => getConversations(),
   })
   const { setMessages } = useMessages((state) => ({
-    setMessages: state.setMessage,
+    setMessages: state.setMessages,
   }))
   return (
     <>

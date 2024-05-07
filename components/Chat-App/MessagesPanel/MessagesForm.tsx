@@ -1,7 +1,7 @@
 import { CornerDownLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { useMessages } from '@/helpers/zustand'
+import { useAuth, useMessages } from '@/helpers/zustand'
 import {
   Form,
   FormControl,
@@ -13,16 +13,29 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SendMessageForm } from '@/helpers/lib/formSchemas'
+import { useMutation } from '@tanstack/react-query'
+import { createMessage } from '@/helpers/api/messages/createMessage'
 
-export function MessagesForm() {
-  const setMessages = useMessages((state) => state.setMessage)
+type MessageFormProps = {
+  conversationId: string
+}
+export function MessagesForm({ conversationId }: MessageFormProps) {
+  const { mutate } = useMutation({
+    mutationKey: ['create-message'],
+    mutationFn: createMessage,
+  })
+  const user = useAuth((state) => state.user)
+  const addMessage = useMessages((state) => state.addMessage)
   const form = useForm<z.infer<typeof SendMessageForm>>({
     resolver: zodResolver(SendMessageForm),
     defaultValues: { messages: '' },
   })
 
   async function onSubmit(value: z.infer<typeof SendMessageForm>) {
-    console.log(value)
+    const message = { content: value.messages, author: user }
+    const data = { content: value.messages, conversationId }
+    addMessage(message)
+    mutate(data)
   }
   return (
     <Form {...form}>

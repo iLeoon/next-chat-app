@@ -2,6 +2,7 @@ import * as React from 'react'
 import type { Metadata } from 'next'
 import './globals.css'
 import { ReactQueryProvider } from '@/helpers/providers/ReactQueryProvider'
+import { WebSocketContextProvider } from '@/helpers/providers/WebSocketProvider'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <WebSocketContextProvider>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </WebSocketContextProvider>
       </body>
     </html>
   )

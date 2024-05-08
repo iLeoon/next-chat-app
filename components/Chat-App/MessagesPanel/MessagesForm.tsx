@@ -15,11 +15,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SendMessageForm } from '@/helpers/lib/formSchemas'
 import { useMutation } from '@tanstack/react-query'
 import { createMessage } from '@/helpers/api/messages/createMessage'
+import { useContext, useEffect } from 'react'
+import { WebSocketContext } from '@/helpers/context/websocketCtx'
 
 type MessageFormProps = {
   conversationId: string
 }
 export function MessagesForm({ conversationId }: MessageFormProps) {
+  const socket = useContext(WebSocketContext)
   const { mutate } = useMutation({
     mutationKey: ['create-message'],
     mutationFn: createMessage,
@@ -37,6 +40,16 @@ export function MessagesForm({ conversationId }: MessageFormProps) {
     addMessage(message)
     mutate(data)
   }
+
+  useEffect(() => {
+    socket.on('connect', () => console.log('connected from front-end'))
+    socket.on('onMessage', (data) => {
+      console.log(data)
+    })
+    return () => {
+      socket.off('connect')
+    }
+  }, [])
   return (
     <Form {...form}>
       <form

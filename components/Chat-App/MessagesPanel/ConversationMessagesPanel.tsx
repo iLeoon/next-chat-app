@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useContext } from 'react'
-import { useAuth, useMessages } from '@/helpers/zustand'
+import { useMessages } from '@/helpers/zustand'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { WebSocketContext } from '@/helpers/context/websocketCtx'
 
@@ -20,14 +20,16 @@ export function ConversationMessagesPanel() {
 
   useEffect(() => {
     Scroll()
-    socket.on('connect', () => console.log('connected'))
-
+    socket.on('connect', () => console.log('connected from front-end'))
+    socket.emit('message', () => {
+      socket.on('onMessage', (data) => {
+        console.log(data)
+      })
+    })
     return () => {
       socket.off('connect')
     }
   }, [])
-
-  const user = useAuth((state) => state.user)
 
   return (
     <div className="h-full p-9" ref={container}>
@@ -41,7 +43,6 @@ export function ConversationMessagesPanel() {
             </AvatarFallback>
           </Avatar>
           <span>{message.content}</span>
-          <span>{user.name}</span>
         </div>
       ))}
     </div>

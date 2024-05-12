@@ -1,22 +1,20 @@
 'use client'
 
 import React from 'react'
+import { Card, CardContent } from '@/components/ui/card'
 import Conversations from './Conversations'
-import { Card, CardContent } from '../../ui/card'
 import SearchField from './SearchField'
-import { Separator } from '../../ui/separator'
 import { AddConversation } from './AddConversation'
 
 export default function ChatList() {
   return (
-    <Card className="w-fit rounded-none h-screen">
-      <CardContent>
-        <div className="flex items-center justify-start gap-6 my-5">
+    <Card className="rounded-none h-screen border-none">
+      <CardContent className="p-0">
+        <div className="flex items-center justify-start gap-6 border-b p-6">
           <SearchField />
           <AddConversation />
         </div>
-        <Separator className="my-7" />
-        <div className="">
+        <div className="p-2">
           <Conversations />
         </div>
       </CardContent>

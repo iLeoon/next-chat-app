@@ -28,7 +28,7 @@ export function MessagesForm({ conversationId }: MessageFormProps) {
     mutationFn: createMessage,
   })
   const user = useAuth((state) => state.user)
-  const addMessage = useMessages((state) => state.addMessage)
+  // const addMessage = useMessages((state) => state.addMessage)
   const form = useForm<z.infer<typeof SendMessageForm>>({
     resolver: zodResolver(SendMessageForm),
     defaultValues: { messages: '' },
@@ -37,7 +37,7 @@ export function MessagesForm({ conversationId }: MessageFormProps) {
   async function onSubmit(value: z.infer<typeof SendMessageForm>) {
     const message = { content: value.messages, author: user }
     const data = { content: value.messages, conversationId }
-    addMessage(message)
+    // addMessage(message)
     mutate(data)
   }
 
@@ -54,7 +54,7 @@ export function MessagesForm({ conversationId }: MessageFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring mt-auto"
+        className="rounded-lg border relative"
       >
         <FormField
           control={form.control}
@@ -62,19 +62,22 @@ export function MessagesForm({ conversationId }: MessageFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <div className="flex">
+                <div className="relative">
                   <Textarea
                     id="message"
                     placeholder="send a message"
-                    className="resize-none border-0 shadow-none focus-visible:ring-0"
+                    className="resize-none border-0 shadow-none h-full"
                     {...field}
                   />
-                  <div className="flex items-center p-3 pt-0">
-                    <Button type="submit" size="sm" asChild={false}>
-                      Send Message
-                      <CornerDownLeft className="size-3.5" />
-                    </Button>
-                  </div>
+                  <Button
+                    type="submit"
+                    size="sm"
+                    asChild={false}
+                    className="absolute top-0 right-0 m-3"
+                  >
+                    Send Message
+                    <CornerDownLeft className="size-3.5" />
+                  </Button>
                 </div>
               </FormControl>
               <FormMessage />

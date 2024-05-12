@@ -20,6 +20,7 @@ export type User = {
 }
 
 export type Message = {
+  _id: string
   content: string
   author: User
 }
@@ -47,4 +48,11 @@ export type CreateInvitationData = {
 export type CreateMessageType = {
   content: string
   conversationId: string
+}
+
+export type Conversation = {
+  _id: string
+  creator: User
+  recipent: User
+  messages: Message[]
 }

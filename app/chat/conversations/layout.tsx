@@ -11,7 +11,7 @@ export default function ConversationsLayout({
       {' '}
       <div className="flex">
         <ChatList />
-        <div className="flex flex-col w-full">{children}</div>
+        <div className="w-full">{children}</div>
       </div>
     </>
   )

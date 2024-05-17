@@ -5,7 +5,7 @@ import { Input } from '../../ui/input'
 export default function SearchField() {
   return (
     <Input
-      className="pl-9 pr-9 rounded-full w-48  outline-none focus-visible:ring-transparent"
+      className="pl-9 pr-9 rounded-full w-48 outline-none focus-visible:ring-transparent"
       placeholder="Search"
       icon={
         <CiSearch

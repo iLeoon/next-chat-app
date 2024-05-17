@@ -1,6 +1,5 @@
-import { CornerDownLeft } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
+/* eslint-disable @typescript-eslint/naming-convention */
+import React, { useContext, useEffect } from 'react'
 import { useAuth, useMessages } from '@/helpers/zustand'
 import {
   Form,
@@ -9,13 +8,13 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SendMessageForm } from '@/helpers/lib/formSchemas'
 import { useMutation } from '@tanstack/react-query'
 import { createMessage } from '@/helpers/api/messages/createMessage'
-import { useContext, useEffect } from 'react'
 import { WebSocketContext } from '@/helpers/context/websocketCtx'
 
 type MessageFormProps = {
@@ -28,17 +27,18 @@ export function MessagesForm({ conversationId }: MessageFormProps) {
     mutationFn: createMessage,
   })
   const user = useAuth((state) => state.user)
-  // const addMessage = useMessages((state) => state.addMessage)
+  const addMessage = useMessages((state) => state.addMessage)
   const form = useForm<z.infer<typeof SendMessageForm>>({
     resolver: zodResolver(SendMessageForm),
-    defaultValues: { messages: '' },
+    defaultValues: { message: '' },
   })
 
   async function onSubmit(value: z.infer<typeof SendMessageForm>) {
-    const message = { content: value.messages, author: user }
-    const data = { content: value.messages, conversationId }
-    // addMessage(message)
+    const message = { content: value.message, author: user, _id: '' }
+    const data = { content: value.message, conversationId }
+    addMessage(message)
     mutate(data)
+    form.reset()
   }
 
   useEffect(() => {
@@ -54,30 +54,22 @@ export function MessagesForm({ conversationId }: MessageFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="rounded-lg border relative"
+        className="rounded-lg relative w-[80%] m-auto bottom-1 p-3"
       >
         <FormField
           control={form.control}
-          name="messages"
+          name="message"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <div className="relative">
-                  <Textarea
+                <div className="">
+                  <Input
                     id="message"
                     placeholder="send a message"
-                    className="resize-none border-0 shadow-none h-full"
+                    className="resize-none border-0 shadow-none min-h-16 bottom-3 bg-black text-white focus-visible:ring-transparent"
                     {...field}
+                    onKeyDown={(e) => e.key === 'Enter'}
                   />
-                  <Button
-                    type="submit"
-                    size="sm"
-                    asChild={false}
-                    className="absolute top-0 right-0 m-3"
-                  >
-                    Send Message
-                    <CornerDownLeft className="size-3.5" />
-                  </Button>
                 </div>
               </FormControl>
               <FormMessage />

@@ -8,7 +8,7 @@ import { AddConversation } from './AddConversation'
 
 export default function ChatList() {
   return (
-    <Card className="rounded-none h-screen border-none">
+    <Card className="rounded-none h-svh">
       <CardContent className="p-0">
         <div className="flex items-center justify-start gap-6 border-b p-6">
           <SearchField />

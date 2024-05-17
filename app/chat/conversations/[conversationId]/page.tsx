@@ -21,6 +21,5 @@ export default function ConversationMessages({
   if (isSuccess) {
     setMessage(data.messages)
   }
-  console.log(data)
   return <div>{isSuccess ? <MessagesPanel conversation={data} /> : ''}</div>
 }

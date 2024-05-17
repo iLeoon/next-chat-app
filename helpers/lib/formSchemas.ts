@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { z } from 'zod'
 
 const emailSchema = z
@@ -39,6 +40,8 @@ export const sendInvitationShcema = z.object({
 })
 
 export const SendMessageForm = z.object({
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  messages: z.string({ required_error: 'You must send a message' }),
+  message: z
+    .string()
+    .min(1, 'Enter a message to be sent.')
+    .max(255, "Message can't exceed 255 characters"),
 })

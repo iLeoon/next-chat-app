@@ -13,7 +13,7 @@ export default function MessagesHeader({ conversation }: MessageHeaderProps) {
   const recipient = ConversationAuthor(authUser, conversation)
   return (
     <div className="flex flex-col w-full">
-      <header className="flex items-center gap-4 border-b p-6">
+      <header className="flex items-center gap-4 border-b p-6 my-px">
         <Avatar>
           <AvatarFallback>{recipient.name.slice(0, 2)}</AvatarFallback>
         </Avatar>

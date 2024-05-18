@@ -19,7 +19,7 @@ export default function MessagesHeader({ conversation }: MessageHeaderProps) {
         </Avatar>
 
         <div className="text-foreground transition-colors hover:text-foreground">
-          {conversation.recipent.name}
+          {recipient.name}
         </div>
       </header>
     </div>

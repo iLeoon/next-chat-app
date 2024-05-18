@@ -10,7 +10,7 @@ type MessagePanelProps = {
 }
 export function MessagesPanel({ conversation }: MessagePanelProps) {
   return (
-    <div className="">
+    <div className="h-full">
       <div className="flex flex-col h-svh">
         <MessagesHeader conversation={conversation} />
         <ConversationMessagesPanel />

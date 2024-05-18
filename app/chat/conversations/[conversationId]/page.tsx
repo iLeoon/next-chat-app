@@ -1,10 +1,10 @@
 'use client'
 
+import React, { useEffect } from 'react'
 import { MessagesPanel } from '@/components/Chat-App/MessagesPanel/MessagesPanel'
 import { getConversationById } from '@/helpers/api/conversations/getConversationById'
 import { useMessages } from '@/helpers/zustand'
 import { useQuery } from '@tanstack/react-query'
-import React from 'react'
 
 export default function ConversationMessages({
   params,
@@ -12,14 +12,25 @@ export default function ConversationMessages({
   params: { conversationId: string }
 }) {
   const { data, isSuccess } = useQuery({
-    queryKey: ['get-conversationByID'],
+    queryKey: ['get-conversationByID', [params.conversationId]],
     queryFn: async () => getConversationById(params.conversationId),
   })
 
   const setMessage = useMessages((state) => state.setMessages)
 
-  if (isSuccess) {
-    setMessage(data.messages)
-  }
-  return <div>{isSuccess ? <MessagesPanel conversation={data} /> : ''}</div>
+  useEffect(() => {
+    if (isSuccess) {
+      if (data.messages.length !== 0) {
+        setMessage(data.messages)
+        return
+      }
+
+      setMessage([])
+    }
+  }, [data, isSuccess, setMessage])
+  return (
+    <div className="h-full">
+      {isSuccess ? <MessagesPanel conversation={data} /> : ''}
+    </div>
+  )
 }

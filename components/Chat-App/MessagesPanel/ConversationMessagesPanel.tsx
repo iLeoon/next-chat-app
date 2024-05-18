@@ -12,21 +12,25 @@ export function ConversationMessagesPanel() {
 
   return (
     <div className="overflow-auto space-y-3 grid grid-cols-1 p-10 overflow-x-hidden">
-      {messages.map((message) => (
-        <div
-          key={message._id}
-          className={`flex gap-4 ${isMessageAuthor(authUser, message.author) ? 'place-self-end flex-row-reverse' : 'place-self-start flex-row'}`}
-        >
-          <Avatar>
-            <AvatarFallback>{message.author.name.slice(0, 2)}</AvatarFallback>
-          </Avatar>
+      {messages.length !== 0 ? (
+        messages.map((message) => (
           <div
-            className={`g-white p-3 rounded-2xl ${isMessageAuthor(authUser, message.author) ? 'rounded-tr-none bg-green-300' : 'rounded-tl-none bg-gray-400'}`}
+            key={message._id}
+            className={`flex gap-4 ${isMessageAuthor(authUser, message.author) ? 'place-self-end flex-row-reverse' : 'place-self-start flex-row'}`}
           >
-            {message.content}
+            <Avatar>
+              <AvatarFallback>{message.author.name.slice(0, 2)}</AvatarFallback>
+            </Avatar>
+            <div
+              className={`g-white p-3 rounded-2xl ${isMessageAuthor(authUser, message.author) ? 'rounded-tr-none bg-green-300' : 'rounded-tl-none bg-gray-400'}`}
+            >
+              {message.content}
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <div>Try to send a message </div>
+      )}
     </div>
   )
 }

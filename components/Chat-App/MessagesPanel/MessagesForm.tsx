@@ -8,7 +8,6 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,6 +15,8 @@ import { SendMessageForm } from '@/helpers/lib/formSchemas'
 import { useMutation } from '@tanstack/react-query'
 import { createMessage } from '@/helpers/api/messages/createMessage'
 import { WebSocketContext } from '@/helpers/context/websocketCtx'
+import { Textarea } from '@/components/ui/textarea'
+import { Message } from '@/helpers/types'
 
 type MessageFormProps = {
   conversationId: string
@@ -41,21 +42,25 @@ export function MessagesForm({ conversationId }: MessageFormProps) {
     form.reset()
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && e.shiftKey === false) {
+      e.preventDefault()
+      form.handleSubmit(onSubmit)()
+    }
+  }
   useEffect(() => {
     socket.on('connect', () => console.log('connected from front-end'))
-    socket.on('onMessage', (data) => {
+    socket.on('onMessage', (data: Message) => {
       console.log(data)
+      // addMessage(data)
     })
     return () => {
       socket.off('connect')
     }
-  }, [])
+  }, [addMessage, socket])
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="rounded-lg relative w-[80%] m-auto bottom-1 p-3"
-      >
+      <form className="rounded-lg w-[70%] mt-auto mx-auto bottom-1 p-3">
         <FormField
           control={form.control}
           name="message"
@@ -63,12 +68,12 @@ export function MessagesForm({ conversationId }: MessageFormProps) {
             <FormItem>
               <FormControl>
                 <div className="">
-                  <Input
+                  <Textarea
                     id="message"
-                    placeholder="send a message"
-                    className="resize-none border-0 shadow-none min-h-16 bottom-3 bg-black text-white focus-visible:ring-transparent"
+                    placeholder="Message"
+                    className="resize-none border-0 shadow-none min-h-16 bg-black text-white focus-visible:ring-transparent"
                     {...field}
-                    onKeyDown={(e) => e.key === 'Enter'}
+                    onKeyDown={handleKeyDown}
                   />
                 </div>
               </FormControl>

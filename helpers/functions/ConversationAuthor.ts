@@ -5,7 +5,7 @@ export function ConversationAuthor(
   conversation: Conversation,
 ): User {
   if (user.email === conversation.creator.email) {
-    return conversation.recipent
+    return conversation.recipient
   }
   return conversation.creator
 }

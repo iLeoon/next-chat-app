@@ -27,7 +27,7 @@ export type Message = {
 
 export type conversationData = {
   _id: string
-  recipent: User
+  recipient: User
   messages: Message[]
 }
 
@@ -53,6 +53,6 @@ export type CreateMessageType = {
 export type Conversation = {
   _id: string
   creator: User
-  recipent: User
+  recipient: User
   messages: Message[]
 }

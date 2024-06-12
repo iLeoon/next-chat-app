@@ -27,13 +27,13 @@ export default function Conversations() {
               <div className="">
                 <Avatar className=" bg-cyan-900 w-12 h-12">
                   <AvatarFallback className="flex items-center justify-center h-full w-full">
-                    {conv.recipent.name.slice(0, 1).toUpperCase()}
+                    {conv.recipient.name.slice(0, 1).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </div>
 
               <div className="pb-2 inline-block">
-                <h1 className="text-lg">{conv.recipent.name}</h1>
+                <h1 className="text-lg">{conv.recipient.name}</h1>
                 <p className="text-[13px] text-gray-900 line-clamp-1">done..</p>
               </div>
             </CardContent>

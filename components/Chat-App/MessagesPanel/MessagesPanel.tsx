@@ -13,7 +13,7 @@ export function MessagesPanel({ conversation }: MessagePanelProps) {
     <div className="h-full">
       <div className="flex flex-col h-svh">
         <MessagesHeader conversation={conversation} />
-        <ConversationMessagesPanel />
+        <ConversationMessagesPanel conversation={conversation} />
         <MessagesForm conversation={conversation} />
       </div>
     </div>

@@ -25,7 +25,14 @@ export type Message = {
   author: User
 }
 
-export type conversationData = {
+export type Conversation = {
+  _id: string
+  creator: User
+  recipient: User
+  messages: Message[]
+}
+
+export type ConversationsType = {
   _id: string
   recipient: User
   messages: Message[]
@@ -50,9 +57,11 @@ export type CreateMessageType = {
   conversationId: string
 }
 
-export type Conversation = {
-  _id: string
-  creator: User
-  recipient: User
-  messages: Message[]
+export type MessagePayload = {
+  conversation: {
+    _id: string
+    creator: User
+    recipient: User
+  }
+  message: Message
 }

@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import React from 'react'
+
+import React, { useContext } from 'react'
 import {
   Form,
   FormControl,
@@ -16,6 +17,8 @@ import { useMutation } from '@tanstack/react-query'
 import { createMessage } from '@/helpers/api/messages/createMessage'
 import { Textarea } from '@/components/ui/textarea'
 import { Conversation } from '@/helpers/types'
+import { useMessages } from '@/helpers/zustand'
+import { WebSocketContext } from '@/helpers/context/websocketCtx'
 
 type MessageFormProps = {
   conversation: Conversation
@@ -30,10 +33,18 @@ export function MessagesForm({ conversation }: MessageFormProps) {
     defaultValues: { message: '' },
   })
 
+  const socket = useContext(WebSocketContext)
+  const { addMessage } = useMessages((state) => state)
+
   async function onSubmit(value: z.infer<typeof SendMessageForm>) {
     const data = { content: value.message, conversationId: conversation._id }
+    mutate(data, {
+      onSuccess(payload) {
+        socket.emit('event:messageCreate', payload)
+        addMessage(payload.message)
+      },
+    })
 
-    mutate(data)
     form.reset()
   }
 

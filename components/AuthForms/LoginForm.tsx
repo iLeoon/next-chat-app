@@ -40,7 +40,7 @@ function LoginForm() {
     }
     setUser()
 
-    router.push('/')
+    router.push('/chat/conversations')
   }
 
   return (

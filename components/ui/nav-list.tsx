@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { MessageSquare, Mail, User, Users, LogOut } from 'lucide-react'
+import { useAuth } from '@/helpers/zustand'
 import {
   Tooltip,
   TooltipContent,
@@ -12,11 +13,12 @@ import { Nav } from './nav'
 import { Avatar, AvatarFallback } from './avatar'
 
 export default function NavList() {
+  const authUser = useAuth((state) => state.user)
   return (
     <div className="border flex flex-col justify-between items-center py-4">
       <div>
         <Avatar className="w-16 h-16 m-3 rounded-full">
-          <AvatarFallback>AH</AvatarFallback>
+          <AvatarFallback>{authUser.name.slice(0, 2)}</AvatarFallback>
         </Avatar>
       </div>
 

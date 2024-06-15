@@ -3,6 +3,8 @@
 import React from 'react'
 import { MessageSquare, Mail, User, Users, LogOut } from 'lucide-react'
 import { useAuth } from '@/helpers/zustand'
+import { useRouter } from 'next/navigation'
+import { logOut } from '@/helpers/api/auth/auth'
 import {
   Tooltip,
   TooltipContent,
@@ -13,6 +15,7 @@ import { Nav } from './nav'
 import { Avatar, AvatarFallback } from './avatar'
 
 export default function NavList() {
+  const { push } = useRouter()
   const authUser = useAuth((state) => state.user)
   return (
     <div className="border flex flex-col justify-between items-center py-4">
@@ -61,7 +64,12 @@ export default function NavList() {
       <TooltipProvider>
         <Tooltip delayDuration={0}>
           <TooltipTrigger>
-            <LogOut />
+            <LogOut
+              onClick={async () => {
+                await logOut()
+                push('/login')
+              }}
+            />
             <span className="sr-only">Log Out</span>
           </TooltipTrigger>
           <TooltipContent side="right" className="flex items-center gap-4">

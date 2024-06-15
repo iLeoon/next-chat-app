@@ -1,6 +1,6 @@
 import axios from 'axios'
 
 export const fetcher = axios.create({
-  baseURL: process.env.SERVER_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_NEST_API_URL,
   withCredentials: true,
 })

@@ -5,10 +5,7 @@ export async function createMessage(
   payload: CreateMessageType,
 ): Promise<MessagePayload> {
   try {
-    const response = await fetcher.post(
-      `${process.env.NEXT_PUBLIC_NEST_API_URL}/messages/create`,
-      payload,
-    )
+    const response = await fetcher.post('/messages/create', payload)
 
     return response.data
   } catch (e) {

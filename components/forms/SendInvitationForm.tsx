@@ -1,5 +1,6 @@
 'use client'
 
+import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -15,8 +16,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { sendInvitationShcema } from '@/helpers/lib/formSchemas'
 import { z } from 'zod'
 import { createInvitation } from '@/helpers/api/invitations/createInvitation'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 export function SendInvitationForm() {
+  const [email, setEmail] = useState('')
   const form = useForm<z.infer<typeof sendInvitationShcema>>({
     resolver: zodResolver(sendInvitationShcema),
     defaultValues: {
@@ -24,12 +28,33 @@ export function SendInvitationForm() {
     },
   })
 
+  const { mutate } = useMutation({
+    mutationKey: ['create-invitation'],
+    mutationFn: createInvitation,
+  })
   async function onSubmit(value: z.infer<typeof sendInvitationShcema>) {
-    await createInvitation(value)
+    setEmail(value.receiver)
+    mutate(value, {
+      onSuccess(data) {
+        console.log(data.error)
+        if (data.message === 'failed') {
+          return form.setError('receiver', { message: data.error })
+        }
+        return toast.success(
+          `You have successfully sent an invitation to ${email}`,
+          {
+            position: 'top-center',
+          },
+        )
+      },
+    })
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-72">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 sm:max-w-[55%]"
+      >
         <FormField
           control={form.control}
           name="receiver"

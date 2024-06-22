@@ -2,9 +2,9 @@
 
 import React from 'react'
 import { Card, CardContent } from '@/components/ui/card'
+import { CreateConversationDialog } from './CreateConversationDialog'
 import Conversations from './Conversations'
 import SearchField from './SearchField'
-import { AddConversation } from './AddConversation'
 
 export default function ChatList() {
   return (
@@ -12,7 +12,7 @@ export default function ChatList() {
       <CardContent className="p-0">
         <div className="flex items-center justify-start gap-6 border-b p-6">
           <SearchField />
-          <AddConversation />
+          <CreateConversationDialog />
         </div>
         <div className="p-2">
           <Conversations />

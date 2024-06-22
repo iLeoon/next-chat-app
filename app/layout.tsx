@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { ReactQueryProvider } from '@/helpers/providers/ReactQueryProvider'
 import { WebSocketContextProvider } from '@/helpers/providers/WebSocketProvider'
+import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body>
         <WebSocketContextProvider>
           <ReactQueryProvider>{children}</ReactQueryProvider>
+          <Toaster richColors />
         </WebSocketContextProvider>
       </body>
     </html>

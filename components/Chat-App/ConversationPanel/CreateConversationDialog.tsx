@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Button } from '../../ui/button'
+import { SendInvitationForm } from '@/components/forms/SendInvitationForm'
 import {
   Dialog,
   DialogContent,
@@ -9,10 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../../ui/dialog'
-import { SendInvitationForm } from './SendInvitationForm'
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 
-export function AddConversation() {
+export function CreateConversationDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -25,11 +25,12 @@ export function AddConversation() {
           +
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[48%]">
         <DialogHeader>
           <DialogTitle>Create a conversation</DialogTitle>
           <DialogDescription>
-            Enter the email of whoever you want to create a conversation with.
+            Enter the email of the person you want to create a conversation
+            with.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">

@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 
-import React, { useContext, useEffect } from 'react'
+import React, { RefObject, useContext, useEffect, useRef } from 'react'
 import { useAuth, useMessages } from '@/helpers/zustand'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { isMessageAuthor } from '@/helpers/functions/isMessageAuthor'
@@ -17,7 +19,12 @@ export function ConversationMessagesPanel({
   const socket = useContext(WebSocketContext)
   const { messages, addMessage } = useMessages((state) => state)
 
+  const scrollItems = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
+    if (messages.length) {
+      scrollItems.current?.scrollIntoView()
+    }
     socket.on('connect', () => console.log('connected from front-end'))
     socket.on('onMessage', (payload: MessagePayload) => {
       console.log(payload)
@@ -30,7 +37,7 @@ export function ConversationMessagesPanel({
       socket.off('connect')
       socket.off('onMessage')
     }
-  }, [addMessage, conversation._id, socket])
+  }, [addMessage, conversation._id, messages.length, socket])
   return (
     <div className="overflow-auto space-y-3 grid grid-cols-1 p-10 overflow-x-hidden">
       {messages.length !== 0 ? (
@@ -52,6 +59,14 @@ export function ConversationMessagesPanel({
       ) : (
         <div>Try to send a message </div>
       )}
+      <ScrollTo scrollRef={scrollItems} />
     </div>
   )
+}
+
+type ScrollToProps = {
+  scrollRef: RefObject<HTMLDivElement>
+}
+export function ScrollTo({ scrollRef }: ScrollToProps) {
+  return <div ref={scrollRef} />
 }

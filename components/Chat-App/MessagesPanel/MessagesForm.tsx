@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import {
   Form,
   FormControl,
@@ -19,6 +19,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Conversation } from '@/helpers/types'
 import { useMessages } from '@/helpers/zustand'
 import { WebSocketContext } from '@/helpers/context/websocketCtx'
+import { ScrollTo } from './ConversationMessagesPanel'
 
 type MessageFormProps = {
   conversation: Conversation
@@ -34,6 +35,7 @@ export function MessagesForm({ conversation }: MessageFormProps) {
   })
 
   const socket = useContext(WebSocketContext)
+  const scrollItems = useRef<HTMLDivElement>(null)
   const { addMessage } = useMessages((state) => state)
 
   async function onSubmit(value: z.infer<typeof SendMessageForm>) {
@@ -42,6 +44,7 @@ export function MessagesForm({ conversation }: MessageFormProps) {
       onSuccess(payload) {
         socket.emit('event:messageCreate', payload)
         addMessage(payload.message)
+        scrollItems.current?.scrollIntoView()
       },
     })
 
@@ -79,6 +82,7 @@ export function MessagesForm({ conversation }: MessageFormProps) {
           )}
         />
       </form>
+      <ScrollTo scrollRef={scrollItems} />
     </Form>
   )
 }

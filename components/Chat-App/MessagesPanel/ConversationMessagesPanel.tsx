@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { isMessageAuthor } from '@/helpers/functions/isMessageAuthor'
 import { WebSocketContext } from '@/helpers/context/websocketCtx'
 import { Conversation, MessagePayload } from '@/helpers/types'
+import { useConversations } from '@/helpers/zustand/store/conversations-store'
 
 type ConversationMessagesPanelProps = {
   conversation: Conversation
@@ -18,16 +19,17 @@ export function ConversationMessagesPanel({
   const authUser = useAuth((state) => state.user)
   const socket = useContext(WebSocketContext)
   const { messages, addMessage } = useMessages((state) => state)
+  const { updateConversation } = useConversations((state) => state)
 
   const scrollItems = useRef<HTMLDivElement>(null)
-
   useEffect(() => {
     if (messages.length) {
       scrollItems.current?.scrollIntoView()
     }
     socket.on('connect', () => console.log('connected from front-end'))
     socket.on('onMessage', (payload: MessagePayload) => {
-      console.log(payload)
+      console.log(payload.message)
+      updateConversation(payload.conversation)
       if (conversation._id === payload.conversation._id) {
         addMessage(payload.message)
       }
@@ -37,7 +39,13 @@ export function ConversationMessagesPanel({
       socket.off('connect')
       socket.off('onMessage')
     }
-  }, [addMessage, conversation._id, messages.length, socket])
+  }, [
+    addMessage,
+    conversation._id,
+    messages.length,
+    socket,
+    updateConversation,
+  ])
   return (
     <div className="overflow-auto space-y-3 grid grid-cols-1 p-10 overflow-x-hidden">
       {messages.length !== 0 ? (

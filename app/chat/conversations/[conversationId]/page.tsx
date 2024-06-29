@@ -11,23 +11,23 @@ export default function ConversationMessages({
 }: {
   params: { conversationId: string }
 }) {
+  const { setMessages } = useMessages((state) => state)
+
   const { data, isSuccess } = useQuery({
     queryKey: ['get-conversationByID', [params.conversationId]],
     queryFn: async () => getConversationById(params.conversationId),
   })
 
-  const setMessage = useMessages((state) => state.setMessages)
-
   useEffect(() => {
     if (isSuccess) {
       if (data.messages.length !== 0) {
-        setMessage(data.messages)
+        setMessages(data.messages)
         return
       }
 
-      setMessage([])
+      setMessages([])
     }
-  }, [data, isSuccess, setMessage])
+  }, [data, isSuccess, setMessages])
   return (
     <div className="h-full">
       {isSuccess ? <MessagesPanel conversation={data} /> : ''}

@@ -5,7 +5,7 @@ import { devtools } from 'zustand/middleware'
 
 type MessageStore = {
   messages: Message[]
-  setMessages: (message: Message[]) => void
+  setMessages: (messages: Message[]) => void
   addMessage: (message: Message) => void
 }
 
@@ -13,7 +13,7 @@ export const useMessages = create<MessageStore>()(
   devtools(
     (set) => ({
       messages: [],
-      setMessages: (msg) => set(() => ({ messages: msg })),
+      setMessages: (messages) => set(() => ({ messages })),
       addMessage: (msg) =>
         set((state) => ({ messages: [...state.messages, msg] })),
     }),

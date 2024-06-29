@@ -30,12 +30,7 @@ export type Conversation = {
   creator: User
   recipient: User
   messages: Message[]
-}
-
-export type ConversationsType = {
-  _id: string
-  recipient: User
-  messages: Message[]
+  lastMessageSent: Message
 }
 
 export type InvitationData = {
@@ -58,10 +53,6 @@ export type CreateMessageType = {
 }
 
 export type MessagePayload = {
-  conversation: {
-    _id: string
-    creator: User
-    recipient: User
-  }
+  conversation: Conversation
   message: Message
 }

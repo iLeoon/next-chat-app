@@ -17,7 +17,6 @@ import { useMutation } from '@tanstack/react-query'
 import { createMessage } from '@/helpers/api/messages/createMessage'
 import { Textarea } from '@/components/ui/textarea'
 import { Conversation } from '@/helpers/types'
-import { useMessages } from '@/helpers/zustand'
 import { WebSocketContext } from '@/helpers/context/websocketCtx'
 import { ScrollTo } from './ConversationMessagesPanel'
 
@@ -36,14 +35,12 @@ export function MessagesForm({ conversation }: MessageFormProps) {
 
   const socket = useContext(WebSocketContext)
   const scrollItems = useRef<HTMLDivElement>(null)
-  const { addMessage } = useMessages((state) => state)
 
   async function onSubmit(value: z.infer<typeof SendMessageForm>) {
     const data = { content: value.message, conversationId: conversation._id }
     mutate(data, {
       onSuccess(payload) {
         socket.emit('event:messageCreate', payload)
-        addMessage(payload.message)
         scrollItems.current?.scrollIntoView()
       },
     })

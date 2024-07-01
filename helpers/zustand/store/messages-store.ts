@@ -11,11 +11,15 @@ type MessageStore = {
 
 export const useMessages = create<MessageStore>()(
   devtools(
-    (set) => ({
+    (set, get) => ({
       messages: [],
       setMessages: (messages) => set(() => ({ messages })),
       addMessage: (msg) =>
-        set((state) => ({ messages: [...state.messages, msg] })),
+        set(() => {
+          const { messages } = get()
+          messages.push(msg)
+          return { messages }
+        }),
     }),
     { name: 'Messages' },
   ),

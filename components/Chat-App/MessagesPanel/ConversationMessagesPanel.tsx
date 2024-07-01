@@ -28,7 +28,6 @@ export function ConversationMessagesPanel({
     }
     socket.on('connect', () => console.log('connected from front-end'))
     socket.on('onMessage', (payload: MessagePayload) => {
-      console.log(payload.message)
       updateConversation(payload.conversation)
       if (conversation._id === payload.conversation._id) {
         addMessage(payload.message)

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import {
   Form,
   FormControl,
@@ -18,12 +19,15 @@ import { createMessage } from '@/helpers/api/messages/createMessage'
 import { Textarea } from '@/components/ui/textarea'
 import { Conversation } from '@/helpers/types'
 import { WebSocketContext } from '@/helpers/context/websocketCtx'
+import { ConversationAuthor } from '@/helpers/functions/ConversationAuthor'
+import { useAuth } from '@/helpers/zustand'
 import { ScrollTo } from './ConversationMessagesPanel'
 
 type MessageFormProps = {
   conversation: Conversation
 }
 export function MessagesForm({ conversation }: MessageFormProps) {
+  const [typing, setTyping] = useState('')
   const { mutate } = useMutation({
     mutationKey: ['create-message'],
     mutationFn: createMessage,
@@ -34,6 +38,7 @@ export function MessagesForm({ conversation }: MessageFormProps) {
   })
 
   const socket = useContext(WebSocketContext)
+  const authUSer = useAuth((state) => state.user)
   const scrollItems = useRef<HTMLDivElement>(null)
 
   async function onSubmit(value: z.infer<typeof SendMessageForm>) {
@@ -47,13 +52,31 @@ export function MessagesForm({ conversation }: MessageFormProps) {
 
     form.reset()
   }
+  const recipient = ConversationAuthor(authUSer, conversation)
 
+  let timeout
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    socket.emit('event:typing', { recipient, isTyping: true })
+
+    timeout = setTimeout(() => {
+      socket.emit('event:typing', { recipient, isTyping: false })
+    }, 3000)
+
     if (e.key === 'Enter' && e.shiftKey === false) {
       e.preventDefault()
       form.handleSubmit(onSubmit)()
     }
   }
+
+  useEffect(() => {
+    socket.on('onTyping', ({ isTyping }) => {
+      if (isTyping) {
+        setTyping(`${recipient.name} is typing`)
+      } else {
+        setTyping('')
+      }
+    })
+  }, [recipient.name, socket])
 
   return (
     <Form {...form}>
@@ -78,6 +101,7 @@ export function MessagesForm({ conversation }: MessageFormProps) {
             </FormItem>
           )}
         />
+        <div>{typing}</div>
       </form>
       <ScrollTo scrollRef={scrollItems} />
     </Form>

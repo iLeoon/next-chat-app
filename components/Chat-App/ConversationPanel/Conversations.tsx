@@ -6,8 +6,7 @@ import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar } from '@/components/ui/avatar'
 import { ConversationAuthor } from '@/helpers/functions/ConversationAuthor'
-import { useAuth } from '@/helpers/zustand'
-import { useConversations } from '@/helpers/zustand/store/conversations-store'
+import { useAuth, useConversations } from '@/helpers/zustand'
 
 export default function Conversations() {
   const authUser = useAuth((state) => state.user)
@@ -39,7 +38,7 @@ export default function Conversations() {
                   {ConversationAuthor(authUser, conversation).name}
                 </h1>
                 <p className="text-[13px] text-gray-900 line-clamp-1">
-                  {conversation.lastMessageSent.content}
+                  {conversation.lastMessageSent?.content}
                 </p>
               </div>
             </CardContent>

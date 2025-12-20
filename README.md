@@ -115,9 +115,7 @@ Validation is handled at the boundary between user input and application logic.
 The application uses a local `.env` file for configuration.
 
 The `.env` file is used to configure:
-- Backend API base URL
-- WebSocket server URL
-- Client-side environment settings
+- The backend connection URL
 
 Environment files are created locally and are not committed to version control.
 
